@@ -15,7 +15,7 @@ jobs:
     steps:
     
     - name: ⚙ Checkout repository
-        uses: actions/checkout@v2
+      uses: actions/checkout@v2
 
     - name: '🔑 Sign-in To Azure'
       uses: azure/login@v1
