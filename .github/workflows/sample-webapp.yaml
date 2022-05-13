@@ -79,5 +79,5 @@ jobs:
           az deployment group create -g ${{ secrets.SAMPLE_APP_RESOURCE_GROUP }} -f ./sample-webapp/infrastructure/main.bicep \
              -p \
                 appServicePlanName=plan-core-infrastructure \
-                appServicePlanResourceGroup=${{ secrets.CORE_INFRA_RESOURCE_GROUP }}
+                appServicePlanResourceGroup=${{ secrets.CORE_INFRA_RESOURCE_GROUP }} \
                 webAppName=${{ env.WEBAPPNAME }}
