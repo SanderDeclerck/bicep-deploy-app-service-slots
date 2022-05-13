@@ -3,6 +3,8 @@ name: Core infrastructure
 on:
   push:
     branches: [ main ]
+    paths:
+      - core-infrastructure/**
 
 permissions:
   id-token: write
