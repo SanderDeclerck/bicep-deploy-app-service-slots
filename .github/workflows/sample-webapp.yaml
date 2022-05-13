@@ -7,6 +7,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  WEBAPPNAME: ${{ github.repository }}-sample-web-app
 
 jobs:
   build:
@@ -79,3 +80,4 @@ jobs:
              -p \
                 appServicePlanName=plan-core-infrastructure \
                 appServicePlanResourceGroup=${{ secrets.CORE_INFRA_RESOURCE_GROUP }}
+                webAppName=${{ env.WEBAPPNAME }}
