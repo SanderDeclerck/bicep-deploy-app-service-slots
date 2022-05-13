@@ -8,10 +8,6 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
   build:
     name: 🛠 Build
@@ -56,3 +52,29 @@ jobs:
         id: image-tag
         run: echo "::set-output name=image-sample-web-app::${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/sample-web-app:sha-$(git rev-parse --short HEAD)" | tr '[:upper:]' '[:lower:]'
   
+  deploy:
+    name: 🖥️ Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+    
+    - name: ⚙ Checkout repository
+      uses: actions/checkout@v2
+
+    - name: '🔑 Sign-in To Azure'
+      uses: azure/login@v1
+      with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    - name: '🖥️ Deploy infrastructure'
+      run: |
+          az deployment group create -g ${{ secrets.SAMPLE_APP_RESOURCE_GROUP }} -f ./sample-webapp/infrastructure/main.bicep \
+             -p \
+                appServicePlanName=plan-core-infrastructure
