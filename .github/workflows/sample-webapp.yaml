@@ -1,0 +1,58 @@
+name: Sample Webapp
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    name: 🛠 Build
+    runs-on: ubuntu-latest
+
+    permissions:
+      packages: write
+
+    outputs:
+      containerImage-sampleWebApp: ${{ steps.image-tag.outputs.image-sample-web-app }}
+
+    steps:
+      - name: ⚙ Checkout repository
+        uses: actions/checkout@v2
+
+      - name: ⚙ Login to registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: ⚙ Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/sample-web-app
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          tags: |
+            type=ref,event=branch
+            type=sha
+
+      - name: 🛠 Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./sample-webapp/src
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: 🏁 Output image tag
+        id: image-tag
+        run: echo "::set-output name=image-sample-web-app::${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/sample-web-app:sha-$(git rev-parse --short HEAD)" | tr '[:upper:]' '[:lower:]'
+  
