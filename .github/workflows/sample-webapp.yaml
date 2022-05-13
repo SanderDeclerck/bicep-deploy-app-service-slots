@@ -83,4 +83,5 @@ jobs:
                 webAppName=${{ env.WEBAPPNAME }} \
                 containerImage='${{ needs.build.outputs.image-sample-web-app }}' \
                 registryUsername=${{ github.actor }} \
-                registryPassword=${{ secrets.PACKAGES_TOKEN }}
+                registryPassword=${{ secrets.PACKAGES_TOKEN }} \
+                registry='https://ghcr.io'

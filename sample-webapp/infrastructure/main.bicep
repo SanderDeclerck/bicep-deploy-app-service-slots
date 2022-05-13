@@ -8,6 +8,7 @@ param containerImage string
 param registryUsername string
 @secure()
 param registryPassword string
+param registry string
 
 param location string = resourceGroup().location
 
@@ -42,6 +43,10 @@ resource sampleWebAppSlot 'Microsoft.Web/sites/slots@2021-03-01' = {
         {
           name: 'DOCKER_REGISTRY_SERVER_PASSWORD'
           value: registryPassword
+        }
+        {
+          name: 'DOCKER_REGISTRY_SERVER_URL'
+          value: registry
         }
       ]
     }
