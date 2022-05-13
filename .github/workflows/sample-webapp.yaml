@@ -18,7 +18,7 @@ jobs:
       packages: write
 
     outputs:
-      containerImage-sampleWebApp: ${{ steps.image-tag.outputs.image-sample-web-app }}
+      image-sample-web-app: ${{ steps.image-tag.outputs.image-sample-web-app }}
 
     steps:
       - name: ⚙ Checkout repository
