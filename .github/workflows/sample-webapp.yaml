@@ -7,7 +7,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  WEBAPPNAME: ${{ github.repository }}-sample-web-app
+  WEBAPPNAME: bicep-deploy-app-service-slots-sample-web-app
 
 jobs:
   build:
