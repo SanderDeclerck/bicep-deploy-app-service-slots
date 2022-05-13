@@ -80,4 +80,5 @@ jobs:
              -p \
                 appServicePlanName=plan-core-infrastructure \
                 appServicePlanResourceGroup=${{ secrets.CORE_INFRA_RESOURCE_GROUP }} \
-                webAppName=${{ env.WEBAPPNAME }}
+                webAppName=${{ env.WEBAPPNAME }} \
+                containerImage='${{ needs.build.outputs.image-sample-web-app }}'

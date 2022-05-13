@@ -2,6 +2,7 @@ param appServicePlanName string
 param appServicePlanResourceGroup string
 
 param webAppName string
+param containerImage string
 
 param location string = resourceGroup().location
 
@@ -27,7 +28,7 @@ resource sampleWebAppSlot 'Microsoft.Web/sites/slots@2021-03-01' = {
   properties: {
     serverFarmId: appServicePlan.id
     siteConfig: {
-      linuxFxVersion: 'DOCKER|'
+      linuxFxVersion: 'DOCKER|${containerImage}'
     }
   }
 }
